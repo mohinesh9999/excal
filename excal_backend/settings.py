@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
-import cloudinary
+import cloudinary,os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -141,7 +141,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 # STATIC_URL = '/static/'
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 # MEDIA_URL = '/static/'
 MEDIA_URL = '/media/'
 # MEDIA_ROOT=STATIC_URL + MEDIA_URL
