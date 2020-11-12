@@ -7,4 +7,6 @@ urlpatterns = [
     path('sendotp_fp/<str:email1>/',OTP_fp),
     path('signup/',signup),
     path('FP/',FP),
+    path('addmentor/', addmentor.as_view(), name ='addmentor'),
+    path('profile/', profile.as_view(), name ='profile'),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

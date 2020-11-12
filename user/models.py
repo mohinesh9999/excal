@@ -1,6 +1,6 @@
 from django.db import models
-# import cloudinary
-# from cloudinary.models import CloudinaryField
+import cloudinary
+from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
 
 class student3(models.Model):
@@ -18,3 +18,23 @@ class student3(models.Model):
     def getv(self):
         return {'gender':self.gender,'email':self.user.email,'name':self.name,
                 'password':self.user.password}
+class mentor(models.Model):
+    email=models.EmailField(primary_key=True,unique=True)
+    std=models.OneToOneField(student3, on_delete=models.CASCADE)
+    branch=models.CharField(max_length=100,blank=False)
+    year=models.CharField(max_length=100,blank=False)
+    prog=models.CharField(max_length=100,blank=False)
+    skills=models.TextField(blank=False)
+    areaofinterest=models.TextField(blank=False)
+    rollno=models.CharField(max_length=100,blank=False)
+    image=CloudinaryField(blank=True, null=True)
+    def getv(self):
+        return {'skills':self.skills,
+                'prog':self.prog,
+                'year':self.year,
+                'branch':self.branch,
+                'areaofinterest':self.areaofinterest,
+                'rollno':self.rollno,
+                }
+
+

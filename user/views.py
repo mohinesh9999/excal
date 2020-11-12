@@ -5,6 +5,9 @@ import math,random
 from django.http import HttpResponse,JsonResponse
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
+from rest_framework.views import APIView 
+from rest_framework.response import Response 
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 def generateOTP(): 
     digits = "0123456789"
@@ -48,3 +51,47 @@ def FP(request):
     u.set_password(x['password'])
     u.save()
     return JsonResponse({'otp':'otp'})
+class addmentor(APIView): 
+    permission_classes = (IsAuthenticated, ) 
+    def get(self,request):
+        l=[]
+        w=mentor.objects.all()
+        print(w)
+        for i in w:
+            d=i.getv()
+            d['image']=str(i.image)
+            d.update(i.std.getv())
+            print(d)
+            # del d['std']
+            l.append(d)
+        return JsonResponse({'result':l})
+    def post(self, request): 
+        print(request.user,request.data)
+        x=request.data
+        w=student3.objects.filter(pk=request.user.email)
+        mentor(
+            std=w[0],
+            email=request.user.email,
+            prog=x['prog'],
+            areaofinterest=x['areaofinterest'],
+            year=x['year'],
+            branch=x['branch'],
+            rollno=x['rollno'],
+            skills=x['skills'],
+            image=x['image']
+        ).save()
+        return JsonResponse({'otp':'otp'})
+class profile(APIView): 
+    permission_classes = (IsAuthenticated, ) 
+    def get(self,request):
+        d1=student3.objects.filter(pk=request.user.email)[0].getv()
+        print(d1)
+        x=mentor.objects.filter(pk=request.user.email)
+        # print(str(x[0].image))
+        d2=dict()
+        if(len(x)==1):
+            d2=x[0].getv()
+            d2['image']=str(x[0].image)
+        d1.update(d2)
+        return JsonResponse({'result':d1})
+    
