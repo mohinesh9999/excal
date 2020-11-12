@@ -14,9 +14,7 @@ def generateOTP():
     return OTP
 def OTP(request,email1):
     # print((str(request.POST)),request.FILES) 
-    q=User.objects.filter(email=email1)
-    # q1=student3.objects.filter(user=q[0])[0]
-    # print(q[0],len(q),q1.getv())
+    q=student3.objects.filter(pk=email1)
     if(len(q)!=0):
         return JsonResponse({'otp':'exist'})
     otp=generateOTP()
@@ -24,7 +22,7 @@ def OTP(request,email1):
     return JsonResponse({'otp':otp})
 def OTP_fp(request,email1):
     # print((str(request.POST)),request.FILES) 
-    q=User.objects.filter(email=email1)
+    q=student3.objects.filter(pk=email1)
     # print(q[0].getv(),len(q))
     if(len(q)==0):
         return JsonResponse({'otp':'not exist'})
@@ -40,7 +38,7 @@ def signup(request):
     user.is_active=True
     user.save()
     user = User.objects.get(username=x['email'])
-    student3(user=user,name=x['name'],gender=x['gender']).save()
+    student3(user=user,email=x['email'],name=x['name'],gender=x['gender']).save()
     return JsonResponse({'otp':'otp'})
 @api_view(['POST'])
 def FP(request):
