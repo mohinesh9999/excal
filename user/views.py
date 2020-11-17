@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from rest_framework.views import APIView 
 from rest_framework.response import Response 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 # Create your views here.
 def generateOTP(): 
     digits = "0123456789"
@@ -32,17 +32,26 @@ def OTP_fp(request,email1):
     otp=generateOTP()
     send_mail('Verificaton for signup', otp, 'sihkkr2020@gmail.com', [email1])
     return JsonResponse({'otp':otp})
-from django.views.decorators.csrf import csrf_exempt
-@api_view(['POST'])
-def signup(request):
-    print(((request.data)))
-    x=request.data
-    user=User.objects.create_user(x['email'], x['email'], x['password'])
-    user.is_active=True
-    user.save()
-    user = User.objects.get(username=x['email'])
-    student3(user=user,email=x['email'],name=x['name'],gender=x['gender']).save()
-    return JsonResponse({'otp':'otp'})
+# @api_view(['POST'])
+# def signup(request):
+#     print(((request.data)))
+#     x=request.data
+#     user=User.objects.create_user(x['email'], x['email'], x['password'])
+#     user.is_active=True
+#     user.save()
+#     user = User.objects.get(username=x['email'])
+#     student3(user=user,email=x['email'],name=x['name'],gender=x['gender']).save()
+#     return JsonResponse({'otp':'otp'})
+class signup(APIView): 
+    permission_classes = (AllowAny, ) 
+    def post(self, request): 
+        x=request.data
+        user=User.objects.create_user(x['email'], x['email'], x['password'])
+        user.is_active=True
+        user.save()
+        user = User.objects.get(username=x['email'])
+        student3(user=user,email=x['email'],name=x['name'],gender=x['gender']).save()
+        return JsonResponse({'otp':'otp'})
 @api_view(['POST'])
 def FP(request):
     print(((request.data)))
@@ -51,6 +60,7 @@ def FP(request):
     u.set_password(x['password'])
     u.save()
     return JsonResponse({'otp':'otp'})
+from django.views.decorators.csrf import csrf_exempt
 class addmentor(APIView): 
     permission_classes = (IsAuthenticated, ) 
     def get(self,request):

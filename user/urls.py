@@ -5,7 +5,7 @@ from .views import *
 urlpatterns = [
     path('sendotp/<str:email1>/',OTP),
     path('sendotp_fp/<str:email1>/',OTP_fp),
-    path('signup/',signup),
+    path('signup/',signup.as_view(), name ='signup'),
     path('FP/',FP),
     path('addmentor/', addmentor.as_view(), name ='addmentor'),
     path('profile/', profile.as_view(), name ='profile'),
