@@ -6,7 +6,7 @@ urlpatterns = [
     path('sendotp/<str:email1>/',OTP),
     path('sendotp_fp/<str:email1>/',OTP_fp),
     path('signup/',signup.as_view(), name ='signup'),
-    path('FP/',FP),
+    path('FP/',FP.as_view(), name ='FP'),
     path('addmentor/', addmentor.as_view(), name ='addmentor'),
     path('profile/', profile.as_view(), name ='profile'),
     path('buysell/', addbuysell.as_view(), name ='addbuysell'),

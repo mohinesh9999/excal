@@ -52,14 +52,15 @@ class signup(APIView):
         user = User.objects.get(username=x['email'])
         student3(user=user,email=x['email'],name=x['name'],gender=x['gender']).save()
         return JsonResponse({'otp':'otp'})
-@api_view(['POST'])
-def FP(request):
-    print(((request.data)))
-    x=request.data
-    u = User.objects.get(username=x['email'])
-    u.set_password(x['password'])
-    u.save()
-    return JsonResponse({'otp':'otp'})
+class FP(APIView): 
+    permission_classes = (AllowAny, ) 
+    def post(self, request): 
+        print(((request.data)))
+        x=request.data
+        u = User.objects.get(username=x['email'])
+        u.set_password(x['password'])
+        u.save()
+        return JsonResponse({'otp':'otp'})
 from django.views.decorators.csrf import csrf_exempt
 class addmentor(APIView): 
     permission_classes = (IsAuthenticated, ) 
