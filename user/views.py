@@ -98,10 +98,57 @@ class profile(APIView):
         print(d1)
         x=mentor.objects.filter(pk=request.user.email)
         # print(str(x[0].image))
+        y=buysell.objects.filter(std1=student3.objects.filter(pk=request.user.email)[0])
+        l=[]
+        for i in y:
+            m=i.getv()
+            m['image']=str(i.image)
+            l.append(m)
         d2=dict()
         if(len(x)==1):
             d2=x[0].getv()
             d2['image']=str(x[0].image)
         d1.update(d2)
-        return JsonResponse({'result':d1})
+        return JsonResponse({'result':d1,'products':l})
+class addbuysell(APIView): 
+    permission_classes = (IsAuthenticated, ) 
+    def get(self,request):
+        l=[]
+        w=buysell.objects.all()
+        print(w)
+        for i in w:
+            d=i.getv()
+            d['pimage']=str(i.image)
+            d.update(i.std1.getv())
+            print(d)
+            try:
+                d.update(i.std.getv())
+                d['image']=str(i.std.image)
+            except:
+                pass
+            # del d['std']
+            l.append(d)
+        return JsonResponse({'result':l})
+    def post(self,request):
+        x=request.data
+        w=mentor.objects.filter(pk=request.user.email)
+        y=student3.objects.filter(pk=request.user.email)
+        if(len(w)==0):
+            w=None
+        else:
+            w=w[0]
+        if(len(y)==0):
+            y=None
+        else:
+            y=y[0]
+        buysell(
+            std1=y,
+            std=w,
+            name=x['name'],
+            desc=x['desc'],
+            isshow=x['isshow'],
+            image=x['image'],
+            price=x['price']
+        ).save()
+        return JsonResponse({'otp':'otp'})
     

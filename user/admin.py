@@ -4,3 +4,4 @@ from django.contrib import admin
 from .models import *
 admin.site.register(student3)
 admin.site.register(mentor)
+admin.site.register(buysell)

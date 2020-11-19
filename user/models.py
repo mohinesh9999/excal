@@ -36,5 +36,25 @@ class mentor(models.Model):
                 'areaofinterest':self.areaofinterest,
                 'rollno':self.rollno,
                 }
-
+class buysell(models.Model):
+    SHOW_CHOICES = (
+        ('T', 'yes'),
+        ('F', 'no'),
+    )
+    p_id = models.AutoField(primary_key=True)
+    registered_at=models.DateTimeField(auto_now=True)
+    std1=models.ForeignKey(student3, on_delete = models.CASCADE)
+    std=models.ForeignKey(mentor, on_delete=models.DO_NOTHING)
+    name=models.CharField(max_length=100,blank=False)
+    desc=models.TextField(blank=False)
+    isshow=models.CharField(max_length=1, choices=SHOW_CHOICES,blank=False,null=False)
+    image=CloudinaryField(blank=True, null=True)
+    price=models.CharField(max_length=100,blank=False)
+    def getv(self):
+        return {'registered_at':self.registered_at,
+                'pname':self.name,
+                'desc':self.desc,
+                'isshow':self.isshow,
+                'price':self.price,
+                }
 

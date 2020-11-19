@@ -9,4 +9,5 @@ urlpatterns = [
     path('FP/',FP),
     path('addmentor/', addmentor.as_view(), name ='addmentor'),
     path('profile/', profile.as_view(), name ='profile'),
+    path('buysell/', addbuysell.as_view(), name ='addbuysell'),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
