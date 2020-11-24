@@ -8,3 +8,10 @@ class noti(models.Model):
     desc=models.TextField(blank=False)
     registered_at=models.DateTimeField(auto_now=True)
     FILE=CloudinaryField(blank=True, null=True)
+
+    def getv(self):
+        return {'p_id':self.p_id,
+                'theme':self.theme,
+                'desc':self.desc,
+                'registered_at':self.registered_at,
+                'FILE':str(self.FILE)}
