@@ -56,5 +56,6 @@ class buysell(models.Model):
                 'desc':self.desc,
                 'isshow':self.isshow,
                 'price':self.price,
+                'p_id':self.p_id
                 }
 

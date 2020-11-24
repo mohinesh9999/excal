@@ -121,7 +121,6 @@ class addbuysell(APIView):
             d=i.getv()
             d['pimage']=str(i.image)
             d.update(i.std1.getv())
-            print(d)
             try:
                 d.update(i.std.getv())
                 d['image']=str(i.std.image)
@@ -152,4 +151,6 @@ class addbuysell(APIView):
             price=x['price']
         ).save()
         return JsonResponse({'otp':'otp'})
-    
+    def put(self,request):
+        b=buysell.objects.filter(pk=request.data['p_id']).update(isshow='F')
+        return JsonResponse({'otp':'otp'})

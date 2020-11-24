@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from rest_framework_simplejwt import views as jwt_views 
-import user
+import user,excal_admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user.urls')),
+    path('excal_admin/', include('excal_admin.urls')),
     path('api/token/', 
          jwt_views.TokenObtainPairView.as_view(), 
          name ='token_obtain_pair'), 
