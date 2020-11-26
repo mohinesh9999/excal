@@ -72,9 +72,10 @@ class addmentor(APIView):
         print(w)
         for i in w:
             d=i.getv()
-            d['image']=str(i.image)
+            print(str(i.image))
+            d['image']=str(i.image) if((i.image) and str(i.image)!="undefined") else "WhatsApp_Image_2020-11-26_at_10.44.30_PM_1_t5mowc"
             d.update(i.std.getv())
-            print(d)
+            # print(d)
             # del d['std']
             l.append(d)
         return JsonResponse({'result':l})
