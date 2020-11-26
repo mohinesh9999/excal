@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from rest_framework.views import APIView 
 from rest_framework.response import Response 
 from rest_framework.permissions import IsAuthenticated,AllowAny
+import cloudinary
+import hashlib
 # Create your views here.
 def generateOTP(): 
     digits = "0123456789"
@@ -21,8 +23,8 @@ def OTP(request,email1):
     if(len(q)!=0):
         return JsonResponse({'otp':'exist'})
     otp=generateOTP()
-    send_mail('Verificaton for signup', otp, 'sihkkr2020@gmail.com', [email1])
-    return JsonResponse({'otp':otp})
+    send_mail('Verificaton for signup', "otp for verification is "+str(otp), 'sihkkr2020@gmail.com', [email1])
+    return JsonResponse({'otp':hashlib.md5((str(otp)).encode()).hexdigest()})
 def OTP_fp(request,email1):
     # print((str(request.POST)),request.FILES) 
     q=student3.objects.filter(pk=email1)
@@ -30,8 +32,8 @@ def OTP_fp(request,email1):
     if(len(q)==0):
         return JsonResponse({'otp':'not exist'})
     otp=generateOTP()
-    send_mail('Verificaton for signup', otp, 'sihkkr2020@gmail.com', [email1])
-    return JsonResponse({'otp':otp})
+    send_mail('Verificaton for forgot password', "otp for verification is "+str(otp), 'sihkkr2020@gmail.com', [email1])
+    return JsonResponse({'otp':hashlib.md5((str(otp)).encode()).hexdigest()})
 # @api_view(['POST'])
 # def signup(request):
 #     print(((request.data)))
@@ -119,6 +121,8 @@ class addbuysell(APIView):
         print(w)
         for i in w:
             d=i.getv()
+            # print(type(i.image),(i.image).metadata())
+            # print(cloudinary.utils.cloudinary_url(str(i.image)))
             d['pimage']=str(i.image)
             d.update(i.std1.getv())
             try:

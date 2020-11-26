@@ -8,13 +8,14 @@ from django.contrib.auth.models import User
 from rest_framework.views import APIView 
 from rest_framework.response import Response 
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
-
+import  cloudinary
 class addnoti(APIView): 
     permission_classes = (IsAdminUser, )
     def get(self,request):
         l=[]
         w=noti.objects.all()
         for i in w:
+            print(cloudinary.utils.cloudinary_url(str(i.FILE)))
             l.append(i.getv())
         l.sort(key=lambda x:(x['registered_at']))
         l=l[::-1]
