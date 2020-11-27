@@ -9,8 +9,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response 
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 import  cloudinary
-class addnoti(APIView): 
-    permission_classes = (IsAdminUser, )
+class viewnoti(APIView):
+    permission_classes=(IsAuthenticated,)
     def get(self,request):
         l=[]
         w=noti.objects.all()
@@ -20,6 +20,8 @@ class addnoti(APIView):
         l.sort(key=lambda x:(x['registered_at']))
         l=l[::-1]
         return JsonResponse({'result':l})
+class addnoti(APIView): 
+    permission_classes = (IsAdminUser, )
     def post(self,request):
         x=request.data
         noti(theme=x['theme'],
