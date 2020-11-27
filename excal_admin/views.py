@@ -31,7 +31,7 @@ class changepass(APIView):
     permission_classes = (IsAdminUser, )
     def post(self,request):
         x=request.data
-        u = User.objects.get(username=x['email'])
+        u = User.objects.get(username=request.user.email)
         u.set_password(x['password'])
         u.save()
         return JsonResponse({'otp':'otp'})
